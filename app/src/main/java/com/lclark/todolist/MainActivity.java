@@ -2,6 +2,7 @@ package com.lclark.todolist;
 
 import android.app.Activity;
 import android.os.Bundle;
+
 import android.widget.Button;
 
 public class MainActivity extends Activity {
@@ -15,4 +16,6 @@ public class MainActivity extends Activity {
         Button midButton = (Button) findViewById(R.id.main_activity_button_middle);
 
     }
+
 }
+
