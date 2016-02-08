@@ -4,7 +4,11 @@ import android.app.Activity;
 import android.os.Bundle;
 import android.widget.Button;
 
+
+
 public class MainActivity extends Activity {
+
+    private final String[] days = getResources().getStringArray(R.array.daysArray);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

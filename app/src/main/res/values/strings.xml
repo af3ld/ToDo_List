@@ -1,6 +1,7 @@
 <resources>
     <string name="app_name">ToDoList</string>
     <string name="action_settings">Settings</string>
+    <string name="hint">Your plans for %s are:</string>
 
     <string-array name="daysArray">
         <item>Monday</item>
