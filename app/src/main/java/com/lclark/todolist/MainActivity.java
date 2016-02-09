@@ -9,13 +9,11 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
-import java.util.Arrays;
-import java.util.List;
 
 
 public class MainActivity extends Activity {
 
-    private List<String> currentDay = Arrays.asList(getResources().getStringArray(R.array.daysArray));
+    private String[] currentDay = getResources().getStringArray(R.array.daysArray);
     private EditText editText = (EditText) findViewById(R.id.edit_text_main);
     private TextView textView = (TextView) findViewById(R.id.textView);
     private int today = 0;
@@ -25,7 +23,7 @@ public class MainActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        String title = String.format(getResources().getString(R.string.textview), currentDay.get(today));
+        String title = String.format(getResources().getString(R.string.textview), currentDay[today]);
         textView.setText(title);
         editText.setHint(String.format(getResources().getString(R.string.hint), currentDay));
 
@@ -33,17 +31,19 @@ public class MainActivity extends Activity {
         Button leftButton = (Button) findViewById(R.id.main_activity_button_left);
         Button rightButton = (Button) findViewById(R.id.main_activity_button_right);
         Button midButton = (Button) findViewById(R.id.main_activity_button_middle);
-        leftButton.setText(currentDay.get(daysFormat(today)[0]));
-        rightButton.setText(currentDay.get(daysFormat(today)[1]));
+        leftButton.setText(currentDay[daysFormat(today)[0]]);
+        rightButton.setText(currentDay[daysFormat(today)[1]]);
 
         View.OnClickListener buttonHandler = new View.OnClickListener() {
             public void onClick(View v) {
                 switch (v.getId()) {
                     case R.id.main_activity_button_left:
                         today--;
+                        recreate();
                         break;
                     case R.id.main_activity_button_right:
                         today++;
+                        recreate();
                         break;
                     case R.id.main_activity_button_middle:
                         SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(MainActivity.this);
