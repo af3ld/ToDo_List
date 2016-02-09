@@ -17,5 +17,7 @@
         <item name="android:layout_weight">1</item>
         <item name="android:background">@color/softLavender</item>
         <item name="android:textColor">@android:color/white</item>
+        <item name="android:textSize">@dimen/buttonText</item>
+        <item name="android:padding">@dimen/buttonPadding</item>
     </style>
 </resources>
