@@ -15,26 +15,26 @@ import android.widget.Toast;
 
 public class MainActivity extends Activity {
 
-    private String[] currentDay = getResources().getStringArray(R.array.daysArray);
-    private EditText editText = (EditText) findViewById(R.id.edit_text_main);
-    private TextView textView = (TextView) findViewById(R.id.textView);
-    private int today = 0;
+    public String[] currentDay;
+    public EditText editText;
+    public TextView textView;
+    private int today;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.main_layout);
+        textView = (TextView) findViewById(R.id.textView);
+        currentDay = getResources().getStringArray(R.array.daysArray);
+        editText = (EditText) findViewById(R.id.edit_text_main);
+        today = 0;
 
-        String title = String.format(getResources().getString(R.string.textviewString), currentDay[today]);
-        textView.setText(title);
-        editText.setHint(String.format(getResources().getString(R.string.hint), currentDay));
 
-
-        Button leftButton = (Button) findViewById(R.id.main_activity_button_left);
-        Button rightButton = (Button) findViewById(R.id.main_activity_button_right);
+        final Button leftButton = (Button) findViewById(R.id.main_activity_button_left);
+        final Button rightButton = (Button) findViewById(R.id.main_activity_button_right);
         Button midButton = (Button) findViewById(R.id.main_activity_button_middle);
-        leftButton.setText(String.format(getResources().getString(R.string.outerButtonTitle), currentDay[daysFormat(today)[0]]));
-        rightButton.setText(String.format(getResources().getString(R.string.outerButtonTitle), currentDay[daysFormat(today)[1]]));
+
+        setDaysText(leftButton, rightButton);
 
         View.OnClickListener buttonHandler = new View.OnClickListener() {
             @Override
@@ -42,11 +42,13 @@ public class MainActivity extends Activity {
                 switch (v.getId()) {
                     case R.id.main_activity_button_left:
                         today--;
-                        recreate();
+                        setDaysText(leftButton, rightButton);
+//                        recreate();
                         break;
                     case R.id.main_activity_button_right:
                         today++;
-                        recreate();
+                        setDaysText(leftButton, rightButton);
+//                        recreate();
                         break;
                     case R.id.main_activity_button_middle:
                         SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(MainActivity.this);
@@ -70,6 +72,13 @@ public class MainActivity extends Activity {
         arr[0] = (i > 0) ? i - 1 : 6;
         arr[1] = (i < 6) ? i + 1 : 0;
         return arr;
+    }
+
+    public void setDaysText(Button leftButton, Button rightButton){
+        leftButton.setText(String.format(getResources().getString(R.string.outerButtonTitle), currentDay[daysFormat(today)[0]]));
+        rightButton.setText(String.format(getResources().getString(R.string.outerButtonTitle), currentDay[daysFormat(today)[1]]));
+        textView.setText(String.format(getString(R.string.textviewString), currentDay[today]));
+        editText.setHint(String.format(getString(R.string.hint), currentDay));
     }
 
 
