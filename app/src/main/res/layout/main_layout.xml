@@ -12,7 +12,6 @@
         android:textAlignment="center"
         android:textSize="22sp"
         android:layout_marginTop="15dp"
-        android:text="@string/textviewString"
         android:textColor="@color/softLavender"
         />
 
@@ -43,7 +42,6 @@
 
         <Button
             android:id="@+id/main_activity_button_left"
-            android:text="@string/outerButtonTitle"
             style="@style/appButtonTheme"/>
 
         <Button
@@ -53,7 +51,6 @@
 
         <Button
             android:id="@+id/main_activity_button_right"
-            android:text="@string/outerButtonTitle"
             style="@style/appButtonTheme"/>
     </LinearLayout>
 
