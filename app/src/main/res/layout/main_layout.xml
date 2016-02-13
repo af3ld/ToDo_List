@@ -5,14 +5,14 @@
     android:orientation="vertical"
     android:layout_margin="10dp">
 
-    <TextView
-        android:id="@+id/textView"
+
+    <Spinner
+        android:id="@+id/days_spinner"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:textAlignment="center"
-        android:textSize="22sp"
-        android:layout_marginTop="15dp"
-        android:textColor="@color/softLavender"
+        android:layout_marginTop="5dp"
+
         />
 
     <EditText

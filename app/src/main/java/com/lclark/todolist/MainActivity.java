@@ -8,8 +8,11 @@ import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -20,7 +23,7 @@ public class MainActivity extends Activity {
     private SharedPreferences pref;
     private String[] currentDay;
     private EditText editText;
-    private TextView textView;
+    private Spinner spinner;
     private int today;
 
     @Override
@@ -28,33 +31,54 @@ public class MainActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main_layout);
         pref = PreferenceManager.getDefaultSharedPreferences(MainActivity.this);
-        textView = (TextView) findViewById(R.id.textView);
+        spinner = (Spinner) findViewById(R.id.days_spinner);
         currentDay = getResources().getStringArray(R.array.daysArray);
         editText = (EditText) findViewById(R.id.edit_text_main);
         today = 0;
-
 
         final Button leftButton = (Button) findViewById(R.id.main_activity_button_left);
         final Button rightButton = (Button) findViewById(R.id.main_activity_button_right);
         Button midButton = (Button) findViewById(R.id.main_activity_button_middle);
 
-        setDaysText(leftButton, rightButton);
+
+        ArrayAdapter<String> days = new ArrayAdapter<String>(MainActivity.this, R.layout.spinner_layout, currentDay);
+        days.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinner.setAdapter(days);
+        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                for (int i = 0; i < currentDay.length; i++) {
+                    if (currentDay[i] == spinner.getSelectedItem().toString()) {
+                        today = i;
+                        setDaysText(leftButton, rightButton, spinner);
+                        readBackText();
+                        break;
+                    }
+                }
+            };
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+            }
+        });
+
+
+
+        setDaysText(leftButton, rightButton, spinner);
 
         View.OnClickListener buttonHandler = new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 switch (v.getId()) {
                     case R.id.main_activity_button_left:
-                        today--;
-                        Log.i(TAG, currentDay[today] + ": " + Integer.toString(today));
-                        setDaysText(leftButton, rightButton);
+                        today = daysFormat(today - 1);
+                        setDaysText(leftButton, rightButton, spinner);
                         readBackText();
                         break;
 
                     case R.id.main_activity_button_right:
-                        today++;
-                        setDaysText(leftButton, rightButton);
-                        Log.i(TAG, currentDay[today] + ": " + Integer.toString(today));
+                        today = daysFormat(today + 1);
+                        setDaysText(leftButton, rightButton, spinner);
                         readBackText();
                         break;
 
@@ -69,23 +93,29 @@ public class MainActivity extends Activity {
             }
         };
 
-        leftButton.setOnClickListener(buttonHandler);
-        midButton.setOnClickListener(buttonHandler);
-        rightButton.setOnClickListener(buttonHandler);
+    leftButton.setOnClickListener(buttonHandler);
+    midButton.setOnClickListener(buttonHandler);
+    rightButton.setOnClickListener(buttonHandler);
     }
 
-    public int[] daysFormat(int i){
-        int[] arr = new int[2];
-        arr[0] = (i > 0) ? i - 1 : 6;
-        arr[1] = (i < 6) ? i + 1 : 0;
-        return arr;
+    public int daysFormat(int i){
+        switch (i){
+            case -1:
+                return 6;
+            case 7:
+                return 0;
+            default:
+                return i;
+        }
     }
 
-    public void setDaysText(Button leftButton, Button rightButton){
-        leftButton.setText(String.format(getResources().getString(R.string.outerButtonTitle), currentDay[daysFormat(today)[0]]));
-        rightButton.setText(String.format(getResources().getString(R.string.outerButtonTitle), currentDay[daysFormat(today)[1]]));
-        textView.setText(String.format(getString(R.string.textviewString), currentDay[today]));
+    public void setDaysText(Button leftButton, Button rightButton, Spinner spinner){
+        leftButton.setText(String.format(getResources().getString(R.string.outerButtonTitle), currentDay[daysFormat(today - 1)]));
+        rightButton.setText(String.format(getResources().getString(R.string.outerButtonTitle), currentDay[daysFormat(today + 1)]));
         editText.setHint(String.format(getString(R.string.hint), currentDay[today]));
+        spinner.setSelection(today);
+
+        Log.i(TAG, currentDay[today] + ": " + Integer.toString(today));
     }
 
     public void readBackText(){

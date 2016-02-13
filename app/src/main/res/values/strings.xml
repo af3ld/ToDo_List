@@ -2,7 +2,6 @@
     <string name="app_name">ToDoList</string>
     <string name="action_settings">Settings</string>
     <string name="hint">Your plans for %s are:</string>
-    <string name="textviewString">%s</string>
     <string name="toastMessage">The TODO list for %s has been saved</string>
     <string name="midButtonTitle">Save</string>
     <string name="outerButtonTitle">%s</string>

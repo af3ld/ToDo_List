@@ -5,4 +5,5 @@
     <dimen name="fab_margin">16dp</dimen>
     <dimen name="buttonText">15sp</dimen>
     <dimen name="buttonPadding">10dp</dimen>
+    <dimen name="spinnerText">20sp</dimen>
 </resources>
